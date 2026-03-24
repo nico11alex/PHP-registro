@@ -1,50 +1,11 @@
 <?php
-$Errores = [];
-$exito = false;
-$datos = [];
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
-    $nombre =trim($_POST["nombre"]);
-    $email = trim($_POST["email"]);
-    $contraseña = ($_POST["contraseña"]);
-    $confirmContraseña = ($_POST["confirmContraseña"]);
-
-    if(empty($nombre)){
-        $Errores["nombre"] = "El nombre es obligatorio";
-    }
-
-    if(empty($email)){
-        $Errores["email"] = "El email es obligatorio";
-    }elseif(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-        $Errores["email"] = "El email " .$email. " no tiene un formato valido";
-    }
-
-    if(empty($contraseña)){
-        $Errores["contraseña"] = "La contraseña es obligatorio";
-    }elseif(strlen($contraseña) <8){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 8 caracteres";
-    }elseif(!preg_match("/[A-Z]/",$contraseña)){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 1 letra en mayuscula";
-    }elseif(!preg_match("/[a-z]/",$contraseña)){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 1 letra en mayuscula";
-    }elseif(!preg_match("/[0-9]/",$contraseña)){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 1 letra en mayuscula";
-    }elseif(!preg_match("/[@$!%*#?&]/",$contraseña)){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 1 letra en mayuscula";
-    }
-
-    if(empty($confirmContraseña)){
-        $Errores["confirmContraseña"] = "Debes confirmar la contraseña";
-    }elseif($confirmContraseña !== $contraseña){
-        $Errores["confirmContraseña"] = "ERROR CONTRASEÑA INVALIDA";
-    }
-    
-    if(empty($Errores)){
-        $exito = true;
-    }else{
-        $datos=compact("nombre","email");
-    }
-}
+session_start();
+$Errores = $_SESSION['Errores'] ?? null;
+$exito = $_SESSION['exito'] ?? false;
+$datos = $_SESSION["datos"] ?? [];
+session_unset();
+session_destroy();
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
           </div>
     <?php } ?>
     <h1 class="text-base md:text-lg lg:text-xl mb-2 ">Registro</h1>
-    <form  method="POST" action="">
+    <form  method="POST" action="validacion.php">
 
       <div class="mb-4">
         <label for="name">Nombre</label>

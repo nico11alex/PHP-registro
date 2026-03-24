@@ -5,9 +5,8 @@ $Errores = [];
 if ($_SERVER["REQUEST_METHOD"] === "POST"){
     $nombre =trim($_POST["nombre"]);
     $email = trim($_POST["email"]);
-    $telefono = trim($_POST["telefono"]);
-    $contraseña = trim($_POST["contraseña"]);
-    $confirmContraseña = trim($_POST["confirmContraseña"]);
+    $contraseña = ($_POST["contraseña"]);
+    $confirmContraseña = ($_POST["confirmContraseña"]);
 
     if(empty($nombre)){
         $Errores["nombre"] = "El nombre es obligatorio";
@@ -17,14 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
         $Errores["email"] = "El email es obligatorio";
     }elseif(!filter_var($email,FILTER_VALIDATE_EMAIL)){
         $Errores["email"] = "El email " .$email. " no tiene un formato valido";
-    }
-
-    if(empty($telefono)){
-        $Errores["telefono"] = "El telefono es obligatorio";
-    }elseif(strlen($telefono) !== 10){
-        $Errores["telefono"] = "El telefono " .$telefono. " tiene una cantidad de digitos erronea";
-    }elseif(!filter_var($telefono, FILTER_VALIDATE_INT)){
-        $Errores["telefono"] = "El telefono " .$telefono. " no tiene un formato valido";
     }
 
     if(empty($contraseña)){
@@ -47,6 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
         $Errores["confirmContraseña"] = "ERROR CONTRASEÑA INVALIDA";
     }
     
+    if(empty($Errores)){
+        $_SESSION['exito'] = true;
+    }else{
+        $_SESSION["datos"]=compact("nombre","email");
+    }
     $_SESSION["Errores"] = $Errores;
     header("Location: index.php");
     exit;
