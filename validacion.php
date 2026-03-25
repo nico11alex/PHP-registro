@@ -56,13 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
         exit;
     }
     
-    
+    $contrasenaHash = password_hash($contraseña, PASSWORD_DEFAULT);
     $sql = "INSERT INTO usuarios(nombre,email,contrasena) VALUES (:nombre, :email, :contrasena)";
     $stmt = $conexion->prepare($sql);
     $stmt->execute([
         ":nombre" => $nombre,
         ":email" => $email,
-        ":contrasena" => $contraseña
+        ":contrasena" => $contrasenaHash
     ]);
     $_SESSION['exito'] = true;
     header("Location: index.php");
