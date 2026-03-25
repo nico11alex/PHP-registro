@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     }elseif(!preg_match("/[a-z]/",$contraseña)){
         $Errores["contraseña"] = "La contraseña debe tener minimo 1 letra en minuscula";
     }elseif(!preg_match("/[0-9]/",$contraseña)){
-        $Errores["contraseña"] = "La contraseña debe tener minimo 1 un número";
+        $Errores["contraseña"] = "La contraseña debe tener minimo 1 número";
     }elseif(!preg_match("/[@$!%*#?&]/",$contraseña)){
         $Errores["contraseña"] = "La contraseña debe tener minimo 1 caracter especial";
     }
